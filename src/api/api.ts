@@ -13,11 +13,11 @@ export const accAPI = {
     billing() {
         return instance.get('billing');
     },
-    dashboard() {
+    fetchDashboardData() {
         return instance.get('account/dashboard.json');
     },
     setPassword(data: SetPasswordDataType) {
-        return instance.post('account/dashboard.json', data);
+        return instance.post('/account/set-password', data);
     },
 };
 
