@@ -1,4 +1,4 @@
-import {FC, useRef, useState} from "react";
+import {FC, Fragment, useRef, useState} from "react";
 import Logo from "../../assets/Black.png";
 import "./Sidebar.css"
 import {useNavigate} from "react-router-dom";
@@ -92,6 +92,7 @@ const SubMenu: FC<SubMenuProps> = ({ item, activeItem, handleClick }) => {
             <div ref={navRef} className="sub-nav-inner">
                 {item?.items.map((subItem) => (
                     <NavButton
+                        key={subItem}
                         onClick={handleClick}
                         name={subItem}
                         isActive={activeItem === subItem}
@@ -116,7 +117,7 @@ export const Sidebar = () => {
         <aside className="sidebar">
             <NavHeader />
             {menuItems.map((item) => (
-                <>
+                <Fragment key={item.name}>
                     {!item.items && (
                         <NavButton
                             onClick={handleClick}
@@ -129,6 +130,7 @@ export const Sidebar = () => {
                     {item.items && (
                         <>
                             <NavButton
+
                                 onClick={handleClick}
                                 name={item.name}
                                 icon={item.icon}
@@ -142,7 +144,7 @@ export const Sidebar = () => {
                             />
                         </>
                     )}
-                </>
+                </Fragment>
             ))}
         </aside>
     );
