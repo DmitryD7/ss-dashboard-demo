@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {IAccount} from "./dataTypes";
 
 
 const instance = axios.create({
@@ -7,6 +8,9 @@ const instance = axios.create({
 });
 
 export const accAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<LoginResponseType>('login', data);
+    },
     logout() {
         return instance.get('logout');
     },
@@ -14,7 +18,7 @@ export const accAPI = {
         return instance.get('billing');
     },
     fetchDashboardData() {
-        return instance.get('account/dashboard.json');
+        return instance.get<IAccount>('account/dashboard.json');
     },
     setPassword(data: SetPasswordDataType) {
         return instance.post('/account/set-password', data);
@@ -33,4 +37,13 @@ export const studioAPI = {
 type SetPasswordDataType = {
     pass0: string, // old password
     pass1: string, // new password
+};
+
+export type LoginParamsType = {
+    email: string,
+    password: string,
+};
+
+export type LoginResponseType = {
+    email: string, // account identifier
 };
