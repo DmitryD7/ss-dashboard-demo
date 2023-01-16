@@ -1,5 +1,17 @@
+.Container {
+  max-width: 1280px;
+  /*width: 100%;*/
+  /*width: calc(100% - 1rem);*/
+  margin: 25px auto 50px auto;
+  padding: 50px;
+}
+
 .App {
   font-family: 'AvenirNext', sans-serif;
   text-align: center;
   color: #0f0f0f;
+}
+
+.Content {
+  margin-left: 260px;
 }
