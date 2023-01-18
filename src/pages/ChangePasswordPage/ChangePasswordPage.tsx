@@ -1,16 +1,28 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './ChangePasswordPage.module.css';
 import {FormikHelpers, useFormik} from "formik";
-import {passwordConfirmValidate, passwordValidate} from "../../utils/utils";
+import {passwordConfirmValidate, passwordValidate, useAppDispatch} from "../../utils/utils";
+import {accountActions} from "../../app/accountReducer";
+import {appSelectors} from "../../app/appReducer";
+import {useSelector} from "react-redux";
+import {Loader} from "../../components/Loader/Loader";
+import SuccessPage from "../../components/Success/SuccessPage";
 
 function ChangePasswordPage() {
+    const dispatch = useAppDispatch();
+    const {changePassword} = accountActions;
+    const {selectStatus} = appSelectors;
+    const status = useSelector(selectStatus);
+
+    const [isSucceeded, setIsSucceeded] = useState(false);
+
 
     const validate = (values: FormValuesType) => {
         const errors: FormErrorType = {};
         errors.password = passwordValidate(values.password);
         errors.passwordConfirmation = passwordConfirmValidate(values.passwordConfirmation, values.password);
 
-        return errors.password || errors.passwordConfirmation ? errors : {};
+        return errors.password || errors.passwordConfirmation || errors.oldPassword ? errors : {};
     };
 
 
@@ -21,22 +33,43 @@ function ChangePasswordPage() {
             passwordConfirmation: '',
         },
         validate,
-        onSubmit: (values, formikHelpers: FormikHelpers<FormValuesType>) => {
-            console.log(values)
+        onSubmit: async (values, formikHelpers: FormikHelpers<FormValuesType>) => {
+            const {oldPassword, password} = values;
+            const res = await dispatch(changePassword({pass0: oldPassword, pass1: password}));
+            if (res.payload?.error) {
+                const error = res.payload.error;
+                if (res.payload.code === 'BAD_PASS0') {
+                    formikHelpers.setFieldError('oldPassword', 'wrong old password');
+                } else if (res.payload.code === 'BAD_PASS') {
+                    formikHelpers.setFieldError('password', 'invalid new password');
+                }else if (res.payload.code === 'SAME_PASS') {
+                    formikHelpers.setFieldError('password', 'same password');
+                }
+                setIsSucceeded(false);
+                return error;
+            } else {
+                setIsSucceeded(true);
+                return;
+            }
         },
     });
+    if (status === "loading") {
+        return <Loader/>
+    }
 
     return (
-        <div className={s.ChangePasswPage}>
+        isSucceeded
+            ? <SuccessPage message={'Your password has been successfully changed!'}/>
+            : <div className={s.ChangePasswPage}>
             <h1 className={s.ChangePasswPage_Header}>Create New Password</h1>
             <div className={s.ChangePasswPage_Form}>
                 <form onSubmit={formik.handleSubmit} autoComplete="off">
                     <div className={s.ChangePasswPage_Form_Element}>
                         <input
                             autoComplete="old-password"
-                            type="text"
+                            type="password"
                             placeholder={'Old password'}
-                            {...formik.getFieldProps('confirmCode')}
+                            {...formik.getFieldProps('oldPassword')}
                         />
                         {formik.errors.oldPassword ?
                             <div

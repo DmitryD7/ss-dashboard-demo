@@ -1,0 +1,25 @@
+.SuccessPage {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+
+    max-width: 650px;
+
+    border-radius: 20px;
+
+    padding: 40px 0;
+
+    margin: 0 auto;
+}
+
+.SuccessIco {
+    width: 70px;
+    margin-bottom: 13px;
+}
+
+.SuccessHeader {
+    margin-bottom: 25px;
+}
+
+.SuccessInfo {
+    margin-bottom: 3rem;
+}
