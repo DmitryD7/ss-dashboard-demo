@@ -46,4 +46,5 @@ export type LoginParamsType = {
 
 export type LoginResponseType = {
     email: string, // account identifier
+    error?: string,
 };

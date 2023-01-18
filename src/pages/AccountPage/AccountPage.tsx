@@ -8,11 +8,13 @@ import {useCallback, useEffect} from "react";
 import {StudioSubscription} from "../../components/StudioSubscription/StudioSubscription";
 
 const AccountPage = () => {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const {fetchDashboardData, logout} = accountActions;
-    const {selectAccEmail} = accountSelectors;
+    const {selectAccEmail, selectIsLoggedIn} = accountSelectors;
+
     const accEmail = useSelector(selectAccEmail);
-    const navigate = useNavigate();
+    const isLoggedIn = useSelector(selectIsLoggedIn);
 
     useEffect(() => {
         dispatch(fetchDashboardData())
@@ -22,19 +24,23 @@ const AccountPage = () => {
         dispatch(logout());
     }, [dispatch, logout]);
 
-    return <div className={s.AccountPage}>
-        <h1 className={s.AccountPage_Header}>Hello, {accEmail}</h1>
-        <hr/>
-        <h2>Studio Plan</h2>
-        <StudioSubscription/>
-        <hr/>
-        <h2>Change Password</h2>
-        <Button onClick={() => navigate('change_password')}>Change Password</Button>
-        <hr/>
-        <h2>Logout</h2>
-        <Button onClick={logoutHandler}>Logout</Button>
-        <hr/>
-    </div>
+    if (!isLoggedIn){
+        navigate('/login')
+    }
+
+        return <div className={s.AccountPage}>
+            <h1 className={s.AccountPage_Header}>Hello, {accEmail}</h1>
+            <hr/>
+            <h2>Studio Plan</h2>
+            <StudioSubscription/>
+            <hr/>
+            <h2>Change Password</h2>
+            <Button onClick={() => navigate('change_password')}>Change Password</Button>
+            <hr/>
+            <h2>Logout</h2>
+            <Button onClick={logoutHandler}>Logout</Button>
+            <hr/>
+        </div>
 };
 
 export default AccountPage;

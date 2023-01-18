@@ -7,6 +7,7 @@ import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
 import {Sidebar} from "./components/Sidebar/Sidebar";
 import StartPage from "./pages/StartPage/StartPage";
 import SeatsPage from "./pages/SeatsPage/SeatsPage";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <div className={s.Content}>
                     <Routes>
                         <Route path={'/'} element={<StartPage/>}/>
+                        <Route path={'/login'} element={<LoginPage/>}/>
                         <Route path={'/settings'} element={<AccountPage/>}/>
                         <Route path={'/seats'} element={<SeatsPage/>}/>
                         <Route path={'change_password'} element={<ChangePasswordPage/>}/>
