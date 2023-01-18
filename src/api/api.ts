@@ -14,23 +14,23 @@ export const accAPI = {
     logout() {
         return instance.get('logout');
     },
-    billing() {
-        return instance.get('billing');
-    },
     fetchDashboardData() {
         return instance.get<IAccount>('account/dashboard.json');
     },
     setPassword(data: SetPasswordDataType) {
-        return instance.post('/account/set-password', data);
+        return instance.post('account/set-password', data);
     },
 };
 
 export const studioAPI = {
     subscribe() {
-        return instance.post('/studio/subscribe');
+        return instance.post('studio/subscribe');
     },
     unsubscribe() {
-        return instance.post('/studio/unsubscribe');
+        return instance.post('studio/unsubscribe');
+    },
+    billing() {
+        return instance.get('billing');
     },
 };
 

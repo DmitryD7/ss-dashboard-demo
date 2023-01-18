@@ -1,23 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './LoginPage.module.css';
 import {FormikHelpers, useFormik} from "formik";
 import {useSelector} from "react-redux";
-import {Link, Navigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {emailValidate, passwordValidate, useAppDispatch} from "../../utils/utils";
 import {LoginParamsType} from "../../api/api";
 import {FormErrorType} from "../../app/types";
 import {Loader} from "../../components/Loader/Loader";
 import {appSelectors} from "../../app/appReducer";
-import {accountActions, accountSelectors} from "../../app/accountReducer";
+import {accountActions} from "../../app/accountReducer";
 
 function LoginPage() {
     const dispatch = useAppDispatch();
     const {selectStatus} = appSelectors;
-    const {selectIsLoggedIn} = accountSelectors;
     const {login} = accountActions;
 
-    const isLoggedIn = useSelector(selectIsLoggedIn);
     const status = useSelector(selectStatus);
+
+    const [isVisiblePassword, setIsVisiblePassword] = useState(false);
+    const toggleIsVisible = () => setIsVisiblePassword(!isVisiblePassword);
 
     const validate = (values: LoginParamsType) => {
         const errors: FormErrorType = {};
@@ -41,9 +42,6 @@ function LoginPage() {
         },
     });
 
-    if (isLoggedIn) {
-        return <Navigate to={'/'}/>;
-    }
     if (status === "loading") {
         return <Loader/>
     }
@@ -66,10 +64,13 @@ function LoginPage() {
 
                     <div className={s.LoginPage_Form_Element}>
                         <input
-                            type="password"
+                            className={s.LoginPage_Form_Element__PasswInput}
+                            type={isVisiblePassword ? 'text' : 'password'}
                             placeholder={'Password'}
                             {...formik.getFieldProps('password')}
                         />
+                        <button className={`${s.toggle} ${isVisiblePassword && s.showing}`} onClick={toggleIsVisible}
+                                type={'button'}></button>
                         <div className={s.LoginPage_ForgotPasswBtn}><Link to={'/reset_request'}>Forgot password?</Link>
                         </div>
                         {formik.errors.password ?

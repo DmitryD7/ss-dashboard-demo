@@ -40,6 +40,7 @@
 }
 
 .LoginPage_Form_Btn {
+    text-align: center;
     width: 100%;
     padding: 19px 0;
     margin-top: 21px;
@@ -68,4 +69,25 @@
     color: red;
     position: absolute;
     font-size: 14px;
+}
+
+.LoginPage_Form_Element__PasswInput {
+    position: relative;
+}
+
+.toggle {
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    translate: 0 -50%;
+    width: 30px;
+    height: 30px;
+    background-image: url('/src/assets/login-svg/show.svg');
+    background-size: 85%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.showing {
+    background-image: url("/src/assets/login-svg/hide.svg");
 }
