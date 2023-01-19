@@ -1,10 +1,10 @@
-.SeatsPage {
+.StudioPage {
     margin-top: 17px;
     text-align: start;
     padding-left: 21px;
 }
 
-.SeatsPage_Header {
-    font-size: 50px;
+.StudioPage_Header {
+    font-size: 40px;
     margin: 0;
 }

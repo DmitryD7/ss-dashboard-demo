@@ -1,11 +1,11 @@
 import s from './SeatsPage.module.css';
 
-const SeatsPage = () => {
+const StudioPage = () => {
 
-    return <div className={s.AccountPage}>
-        <h2>Seats</h2>
+    return <div className={s.StudioPage}>
+        <h1 className={s.StudioPage_Header}>StudioPage</h1>
         <hr/>
     </div>
 };
 
-export default SeatsPage;
+export default StudioPage;

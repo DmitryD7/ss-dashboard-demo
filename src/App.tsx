@@ -5,7 +5,7 @@ import AccountPage from "./pages/AccountPage/AccountPage";
 import ChangePasswordPage from './pages/ChangePasswordPage/ChangePasswordPage';
 import {Sidebar} from "./components/Sidebar/Sidebar";
 import StartPage from "./pages/StartPage/StartPage";
-import SeatsPage from "./pages/SeatsPage/SeatsPage";
+import StudioPage from "./pages/SeatsPage/SeatsPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import MyStudioPage from "./pages/MyStudioPage/MyStudioPage";
 import {useAppDispatch} from "./utils/utils";
@@ -31,7 +31,7 @@ function App() {
                         <Route path={'/login'} element={<LoginPage/>}/>
                         <Route path={'/account'} element={<AccountPage/>}/>
                         <Route path={'/mystudio'} element={<MyStudioPage/>}/>
-                        <Route path={'/seats'} element={<SeatsPage/>}/>
+                        <Route path={'/studio'} element={<StudioPage/>}/>
                         <Route path={'change_password'} element={<ChangePasswordPage/>}/>
                     </Routes>
                 </div>
