@@ -24,10 +24,10 @@ export const accAPI = {
 
 export const studioAPI = {
     subscribe() {
-        return instance.post('studio/subscribe');
+        return instance.post<SubscribeResponseType>('studio/subscribe');
     },
     unsubscribe() {
-        return instance.post('studio/unsubscribe');
+        return instance.post<UnsubscribeResponseType>('studio/unsubscribe');
     },
     billing() {
         return instance.get('billing');
@@ -56,5 +56,27 @@ export type SetPasswordCodeType = 'BAD_PASS0' | 'BAD_PASS' | 'SAME_PASS';
 
 export type SetPasswordResponseType = {
     code?: SetPasswordCodeType,
+    error?: string
+}
+
+export type SubscribeErrorCodeType = 'BAD_ROLE' | 'TEMP_STUDIO' | 'HAS_STUDIO' | 'STRIPE';
+// role doesn't allow purchases [BAD_ROLE]
+// has temporary studio license [TEMP_STUDIO]
+// already has studio [HAS_STUDIO]
+// stripe error [STRIPE]
+
+export type SubscribeResponseType = {
+    code?: SubscribeErrorCodeType
+    url?: string
+    error?: string
+}
+
+export type UnsubscribeErrorCodeType = 'NO_STUDIO' | 'ALREADY_CANCEL' | 'STRIPE';
+//no studio license [NO_STUDIO]
+// license already cancelled [ALREADY_CANCEL]
+// stripe error [STRIPE]
+
+export type UnsubscribeResponseType = {
+    code?: UnsubscribeErrorCodeType
     error?: string
 }

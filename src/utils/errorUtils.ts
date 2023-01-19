@@ -1,6 +1,6 @@
 import {appCommonActions} from "../app/applicationCommonActions"
 import {AxiosError} from "axios";
-import {SetPasswordCodeType} from "../api/api";
+import {SetPasswordCodeType, SubscribeErrorCodeType, UnsubscribeErrorCodeType} from "../api/api";
 
 const {setAppError, setAppStatus} = appCommonActions
 
@@ -24,7 +24,7 @@ type ThunkAPIType = {
 export type ThunkError = {
     rejectValue:
         {
-            code?: SetPasswordCodeType;
+            code?: SetPasswordCodeType | SubscribeErrorCodeType | UnsubscribeErrorCodeType;
             error: string,
         }
 }

@@ -1,6 +1,9 @@
 import s from "./StudioSubscription.module.css";
 import Button from "../Button/Button";
 import {IAccount} from "../../api/dataTypes";
+import {useCallback} from "react";
+import {goToURL, useAppDispatch} from "../../utils/utils";
+import {subscriptionActions} from "../../app/subscriptionReducer";
 
 const data: IAccount = {
     // internal account id
@@ -30,20 +33,72 @@ const data: IAccount = {
 }
 
 export const StudioSubscription = () => {
+    const dispatch = useAppDispatch();
+    const {subscribe, unsubscribe, billing} = subscriptionActions;
+
+    const subscribeHandler = useCallback(async () => {
+        const res = await dispatch(subscribe());
+        console.log(res)
+        if (res.payload?.error) {
+            let errorMessage = '';
+            if (res.payload.code === 'BAD_ROLE') {
+                errorMessage = 'role does not allow purchases';
+                console.log('role does not allow purchases');
+            } else if (res.payload.code === 'TEMP_STUDIO') {
+                errorMessage = 'has temporary studio license';
+                console.log('has temporary studio license');
+            } else if (res.payload.code === 'HAS_STUDIO') {
+                errorMessage = 'already has studio';
+                console.log('already has studio');
+            } else if (res.payload.code === 'STRIPE') {
+                errorMessage = 'stripe error';
+                console.log('stripe error');
+            }
+            return errorMessage;
+        }
+        // @ts-ignore
+        else if (res.payload?.url) {
+            // @ts-ignore
+            goToURL(res.payload?.url);
+        }
+    }, [dispatch, subscribe]);
+
+    const unsubscribeHandler = useCallback(async () => {
+        const res = await dispatch(unsubscribe());
+        if (res.payload?.error) {
+            let errorMessage = '';
+            if (res.payload.code === 'NO_STUDIO') {
+                errorMessage = 'no studio license';
+                console.log('no studio license');
+            } else if (res.payload.code === 'ALREADY_CANCEL') {
+                errorMessage = 'license already cancelled';
+                console.log('license already cancelled');
+            } else if (res.payload.code === 'STRIPE') {
+                errorMessage = 'stripe error';
+                console.log('stripe error');
+            }
+            return errorMessage;
+        }
+    }, [dispatch, unsubscribe]);
+
+    const billingHandler = useCallback(async () => {
+        await dispatch(billing());
+    }, [dispatch, billing]);
+
     const endDate = () => {
         if (data.studio?.end) {
             let date = new Date(data.studio.end * 1000);
             return date.toLocaleDateString();
         }
-        return null
-    }
+        return null;
+    };
 
     const studioPlan = () => {
         if (!data.studio) {
             return (
                 <div>
                     <p>You do not have StyleScan Studio</p>
-                    <button>
+                    <button onClick={subscribeHandler}>
                         Subscribe to StyleScan Studio.
                         <br/>
                         <b>$99/month</b>
@@ -63,11 +118,12 @@ export const StudioSubscription = () => {
                     <Button>Launch StyleScan Studio</Button>
                     {!data.studio.cancelled
                         ? <>
-                            <Button>Update Billing</Button>
-                            <Button>Cancel Subscription</Button>
+                            <Button onClick={billingHandler}>Update Billing</Button>
+                            <Button onClick={unsubscribeHandler}>Cancel Subscription</Button>
                         </>
                         : data.studio.sub
-                        && <Button>{data.studio.trial ? 'Resume trial' : 'Resume Subscription'}</Button>
+                        && <Button
+                            onClick={subscribeHandler}>{data.studio.trial ? 'Resume trial' : 'Resume Subscription'}</Button>
                     }
 
                 </div>

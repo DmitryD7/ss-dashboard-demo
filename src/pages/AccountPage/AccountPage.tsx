@@ -15,8 +15,8 @@ const AccountPage = () => {
     const user = useSelector(selectUser);
     const isLoggedIn = useSelector(selectIsLoggedIn);
 
-    const logoutHandler = useCallback(() => {
-        dispatch(logout());
+    const logoutHandler = useCallback(async () => {
+        await dispatch(logout());
     }, [dispatch, logout]);
 
     const [isOpenedChangePassword, setIsOpenedChangePassword] = useState(false);
