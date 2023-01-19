@@ -34,7 +34,7 @@ export const studioAPI = {
     },
 };
 
-type SetPasswordDataType = {
+export type SetPasswordDataType = {
     pass0: string, // old password
     pass1: string, // new password
 };
@@ -48,3 +48,13 @@ export type LoginResponseType = {
     email: string, // account identifier
     error?: string,
 };
+
+export type SetPasswordCodeType = 'BAD_PASS0' | 'BAD_PASS' | 'SAME_PASS';
+// wrong old password [BAD_PASS0]
+// invalid new password [BAD_PASS]
+// same password [SAME_PASS]
+
+export type SetPasswordResponseType = {
+    code?: SetPasswordCodeType,
+    error?: string
+}

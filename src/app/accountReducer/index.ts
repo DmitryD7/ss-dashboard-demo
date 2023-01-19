@@ -3,11 +3,11 @@ import {accountAsync, accountSlice} from "./accountReducer";
 
 const accountReducer = accountSlice.reducer;
 
-const selectAccEmail = (state: AppRootStateType) => state.account.email;
 const selectIsLoggedIn = (state: AppRootStateType) => state.account.isLoggedIn;
+const selectUser = (state: AppRootStateType) => state.account.user;
 
 const accountSelectors = {
-    selectAccEmail,
+    selectUser,
     selectIsLoggedIn,
 };
 
