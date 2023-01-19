@@ -32,7 +32,7 @@ const data: IAccount = {
     }
 }
 
-export const StudioSubscription = () => {
+export const StudioSubscription = (props: StudioSubscriptionPropsType) => {
     const dispatch = useAppDispatch();
     const {subscribe, unsubscribe, billing} = subscriptionActions;
 
@@ -86,15 +86,15 @@ export const StudioSubscription = () => {
     }, [dispatch, billing]);
 
     const endDate = () => {
-        if (data.studio?.end) {
-            let date = new Date(data.studio.end * 1000);
+        if (props.studio?.end) {
+            let date = new Date(props.studio.end * 1000);
             return date.toLocaleDateString();
         }
         return null;
     };
 
     const studioPlan = () => {
-        if (!data.studio) {
+        if (!props.studio) {
             return (
                 <section className={s.StudioSubscription_Section}>
                     <p>You do not have StyleScan Studio.</p>
@@ -102,7 +102,7 @@ export const StudioSubscription = () => {
                         Subscribe to StyleScan Studio.
                         <br/>
                         <b>$99/month</b>
-                        {data.has_studio_trial && <span
+                        {props.has_studio_trial && <span
                             style={{color: 'green', fontSize: '16px', position: 'absolute', top: '-19px', right: '0'}}>30 day free trial</span>}
                     </Button>
                 </section>
@@ -110,21 +110,21 @@ export const StudioSubscription = () => {
         } else {
             return (
                 <section className={s.StudioSubscription_Section}>
-                    {!data.studio.sub
-                        ? <p>You have {data.studio.n} indefinite Studio license.</p>
-                        : <p>You have {data.studio.n} Studio license which
-                            {data.studio.cancelled ? ' ends' : ' renews'} on {endDate()}.</p>}
+                    {!props.studio?.sub
+                        ? <p>You have {props.studio.n} indefinite Studio license.</p>
+                        : <p>You have {props.studio.n} Studio license which
+                            {props.studio.cancelled ? ' ends' : ' renews'} on {endDate()}.</p>}
 
                     <div className={s.StudioSubscription_Section__Buttons}>
                         <Button>Launch StyleScan Studio</Button>
-                        {!data.studio.cancelled
+                        {!props.studio.cancelled
                             ? <>
                                 <Button onClick={billingHandler}>Update Billing</Button>
                                 <button onClick={unsubscribeHandler} className={s.StudioSubscription_Section_CancelBtn}>Cancel Subscription</button>
                             </>
-                            : data.studio.sub
+                            : props.studio.sub
                             && <Button
-                                onClick={subscribeHandler}>{data.studio.trial ? 'Resume trial' : 'Resume Subscription'}</Button>
+                                onClick={subscribeHandler}>{props.studio.trial ? 'Resume trial' : 'Resume Subscription'}</Button>
                         }
                     </div>
                 </section>
@@ -137,4 +137,15 @@ export const StudioSubscription = () => {
             {studioPlan()}
         </div>
     );
+}
+
+type StudioSubscriptionPropsType = {
+    "has_studio_trial"?: boolean,
+    "studio"?: {
+        "sub": boolean
+        "n": number
+        "cancelled": boolean
+        "end": number
+        "trial": boolean
+    }
 }
