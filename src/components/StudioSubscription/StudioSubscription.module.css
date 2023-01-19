@@ -1,2 +1,45 @@
 .StudioSubscription {
+
+}
+
+.StudioSubscription_Section {
+    position: relative;
+
+    min-width: 256px;
+    max-width: 650px;
+    border-radius: 20px;
+    box-shadow: 10px 10px 29px 0 #00000036;
+    padding: 36px 52px 77px 52px;
+
+    font-weight: 400;
+    font-size: 22px;
+}
+
+.StudioSubscription_Section p{
+    margin: 0;
+}
+
+.StudioSubscription_Section__Buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 45px;
+}
+
+.StudioSubscription_Section__Buttons button {
+    max-width: 320px;
+}
+
+.StudioSubscription_Section__Buttons button:nth-child(n) {
+    margin-bottom: 19px;
+}
+
+.StudioSubscription_Section_CancelBtn {
+    position: absolute;
+    color: red;
+    font-size: 20px;
+    font-weight: 400;
+    margin: 0;
+
+    bottom: 31px;
+    right: 29px;
 }

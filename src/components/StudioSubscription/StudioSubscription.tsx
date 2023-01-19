@@ -26,7 +26,7 @@ const data: IAccount = {
     "studio": {
         "sub": "sub_1MOqXoKXL9xcMNDBzd15EI7k", // stripe subscription (if missing, indefinite license)
         "n": 1,
-        "cancelled": true, // true if the subscription does not renew
+        "cancelled": false, // true if the subscription does not renew
         "end": 1675982627, // UTC date of renew/cancel (eg. new Date(end*1000).toLocaleDateString())
         "trial": false, //
     }
@@ -96,37 +96,38 @@ export const StudioSubscription = () => {
     const studioPlan = () => {
         if (!data.studio) {
             return (
-                <div>
-                    <p>You do not have StyleScan Studio</p>
-                    <button onClick={subscribeHandler}>
+                <section className={s.StudioSubscription_Section}>
+                    <p>You do not have StyleScan Studio.</p>
+                    <Button onClick={subscribeHandler} style={{position: 'relative', marginTop: '79px'}}>
                         Subscribe to StyleScan Studio.
                         <br/>
                         <b>$99/month</b>
-                        <br/>
-                        {data.has_studio_trial && <span style={{color: 'green'}}>30 day free trial</span>}
-                    </button>
-                </div>
+                        {data.has_studio_trial && <span
+                            style={{color: 'green', fontSize: '16px', position: 'absolute', top: '-19px', right: '0'}}>30 day free trial</span>}
+                    </Button>
+                </section>
             );
         } else {
             return (
-                <div>
+                <section className={s.StudioSubscription_Section}>
                     {!data.studio.sub
-                        ? <p>You have {data.studio.n} indefinite Studio license</p>
+                        ? <p>You have {data.studio.n} indefinite Studio license.</p>
                         : <p>You have {data.studio.n} Studio license which
                             {data.studio.cancelled ? ' ends' : ' renews'} on {endDate()}.</p>}
 
-                    <Button>Launch StyleScan Studio</Button>
-                    {!data.studio.cancelled
-                        ? <>
-                            <Button onClick={billingHandler}>Update Billing</Button>
-                            <Button onClick={unsubscribeHandler}>Cancel Subscription</Button>
-                        </>
-                        : data.studio.sub
-                        && <Button
-                            onClick={subscribeHandler}>{data.studio.trial ? 'Resume trial' : 'Resume Subscription'}</Button>
-                    }
-
-                </div>
+                    <div className={s.StudioSubscription_Section__Buttons}>
+                        <Button>Launch StyleScan Studio</Button>
+                        {!data.studio.cancelled
+                            ? <>
+                                <Button onClick={billingHandler}>Update Billing</Button>
+                                <button onClick={unsubscribeHandler} className={s.StudioSubscription_Section_CancelBtn}>Cancel Subscription</button>
+                            </>
+                            : data.studio.sub
+                            && <Button
+                                onClick={subscribeHandler}>{data.studio.trial ? 'Resume trial' : 'Resume Subscription'}</Button>
+                        }
+                    </div>
+                </section>
             );
         }
     }

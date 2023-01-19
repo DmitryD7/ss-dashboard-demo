@@ -11,10 +11,9 @@ const MyStudioPage = () => {
 
     return (isLoggedIn
             ? <div className={s.MyStudioPage}>
-                <h2>Studio Plan</h2>
+                <h1>Studio Plan</h1>
                 <StudioSubscription/>
-                <hr/>
-                <h2>Seats</h2>
+                <h2 style={{marginTop: '41px'}}>Seats</h2>
                 <hr/>
             </div>
             : <h2>You must be logged in</h2>
