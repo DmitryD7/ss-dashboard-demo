@@ -44,7 +44,7 @@ button {
     font-weight: 400;
     line-height: 1;
     padding: 0 25px;
-    color: #1a1a1a;
+    color: #0f0f0f;
 }
 
 .sidebar button span:nth-child(2) {
@@ -66,10 +66,6 @@ button {
     transition: 0.5s;
 }
 
-/* .sub-nav.open {
-  height: 200px;
-} */
-
 .sub-nav button {
     padding-left: 64px;
 }
@@ -83,7 +79,7 @@ button {
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background-color: #1a1a1a;
+    background-color: #0f0f0f;
 }
 
 .material-symbols-outlined {

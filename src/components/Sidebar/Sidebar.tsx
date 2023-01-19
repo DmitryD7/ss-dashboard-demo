@@ -6,12 +6,12 @@ import {useNavigate} from "react-router-dom";
 const menuItems = [
     {
         name: "Account",
-        icon: "apps",
-        items: ["Settings", "Seats"],
+        icon: "manage_accounts",
+        items: ["MyStudio"],
     },
     {
         name: "Studio",
-        icon: "settings",
+        icon: "apps",
     },
 ];
 
@@ -20,8 +20,6 @@ type Item = {
     icon: string;
     items: string[];
 };
-
-
 
 const Icon = ({ icon }: { icon: string }) => (
     <span className="material-symbols-outlined">{icon}</span>
