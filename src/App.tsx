@@ -17,13 +17,11 @@ function App() {
 
     useEffect(() => {
         dispatch(fetchDashboardData())
-    }, []);
+    }, [dispatch, fetchDashboardData]);
 
     return (
         <>
-            {/*<div className={s.Container}>*/}
             <div className={s.App}>
-                {/*<Header/>*/}
                 <Sidebar/>
                 <div className={s.Content}>
                     <Routes>
@@ -36,7 +34,6 @@ function App() {
                     </Routes>
                 </div>
             </div>
-            {/*</div>*/}
         </>
     );
 }

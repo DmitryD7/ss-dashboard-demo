@@ -6,6 +6,7 @@ import {useAppDispatch} from "../../utils/utils";
 import {useCallback, useState} from "react";
 import LoginPage from "../LoginPage/LoginPage";
 import ChangePasswordPage from "../ChangePasswordPage/ChangePasswordPage";
+import {HeaderText} from "../../components/HeaderText/HeaderText";
 
 const AccountPage = () => {
     const dispatch = useAppDispatch();
@@ -30,39 +31,37 @@ const AccountPage = () => {
 
     return (isLoggedIn
             ? <div className={s.AccountPage}>
-                <h1 className={s.AccountPage_Header}>Hello, {user.name ? user.name : user.email}</h1>
-                {/*<div className={s.AccountPage_Content}>*/}
-                    <section className={s.AccountPage_Section}>
-                        <div className={s.AccountPage_Section__Icon}>
-                            {user.role === 'user' && <Icon icon="person"/>}
-                            {user.role === 'admin' && <Icon icon="supervisor_account"/>}
-                            {user.role === 'dev' && <Icon icon="settings_account_box"/>}
-                        </div>
-                        <div>
-                            <div className={s.AccountPage_Section__Info}>
-                                <div>
-                                    {user.name && <p>Name: {user.name}</p>}
-                                    <p>Email: {user.email}</p>
-                                    <p>Role: {user.role}</p>
-                                </div>
+                <HeaderText text={`Hello, ${user.name ? user.name : user.email}`}/>
+                <section className={s.AccountPage_Section}>
+                    <div className={s.AccountPage_Section__Icon}>
+                        {user.role === 'user' && <Icon icon="person"/>}
+                        {user.role === 'admin' && <Icon icon="supervisor_account"/>}
+                        {user.role === 'dev' && <Icon icon="settings_account_box"/>}
+                    </div>
+                    <div>
+                        <div className={s.AccountPage_Section__Info}>
+                            <div>
+                                {user.name && <p>Name: {user.name}</p>}
+                                <p>Email: {user.email}</p>
+                                <p>Role: {user.role}</p>
                             </div>
-                            <div className={s.AccountPage_Section__Settings}>
-                                <p><b>Account settings</b></p>
-                                <button className={s.AccountPage_Section__Button} onClick={toggleChangePasswordHandler}>Change Password</button>
+                        </div>
+                        <div className={s.AccountPage_Section__Settings}>
+                            <p><b>Account settings</b></p>
+                            <Button onClick={toggleChangePasswordHandler}>Change Password</Button>
+                            <div
+                                className={`${s.ModalBackground} ${isOpenedChangePassword && s.OpenModalBackground}`}
+                                onClick={toggleChangePasswordHandler}></div>
+                            {isOpenedChangePassword &&
                                 <div
-                                    className={`${s.ModalBackground} ${isOpenedChangePassword && s.OpenModalBackground}`}
-                                    onClick={toggleChangePasswordHandler}></div>
-                                {isOpenedChangePassword &&
-                                    <div
-                                        className={`${s.Modal} ${isOpenedChangePassword ? s.OpenModal : s.ClosedModal}`}>
-                                        <ChangePasswordPage/>
-                                    </div>
-                                }
-                            </div>
+                                    className={`${s.Modal} ${isOpenedChangePassword ? s.OpenModal : s.ClosedModal}`}>
+                                    <ChangePasswordPage/>
+                                </div>
+                            }
                         </div>
-                        <Button className={s.AccountPage_Section__Logout} onClick={logoutHandler}>Logout</Button>
-                    </section>
-                {/*</div>*/}
+                    </div>
+                    <Button className={s.AccountPage_Section__Logout} onClick={logoutHandler}>Logout</Button>
+                </section>
             </div>
             : <LoginPage/>
     );

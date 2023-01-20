@@ -1,11 +1,11 @@
 import s from "./StudioSubscription.module.css";
 import Button from "../Button/Button";
 import {IAccount} from "../../api/dataTypes";
-import {useCallback} from "react";
+import {useCallback, useState} from "react";
 import {goToURL, useAppDispatch} from "../../utils/utils";
 import {subscriptionActions} from "../../app/subscriptionReducer";
 
-const data: IAccount = {
+const testData: IAccount = {
     // internal account id
     "id": "f306399632ba24df41915150095c94207e040eb763248c8d346a1d6456cb7090",
     // external account id
@@ -29,31 +29,32 @@ const data: IAccount = {
         "cancelled": false, // true if the subscription does not renew
         "end": 1675982627, // UTC date of renew/cancel (eg. new Date(end*1000).toLocaleDateString())
         "trial": false, //
-    }
-}
+    },
+};
 
 export const StudioSubscription = (props: StudioSubscriptionPropsType) => {
     const dispatch = useAppDispatch();
     const {subscribe, unsubscribe, billing} = subscriptionActions;
+    const [errorMessage, setErrorMessage] = useState('');
 
     const subscribeHandler = useCallback(async () => {
         const res = await dispatch(subscribe());
-        console.log(res)
         if (res.payload?.error) {
-            let errorMessage = '';
+            let currentErrorMessage = '';
             if (res.payload.code === 'BAD_ROLE') {
-                errorMessage = 'role does not allow purchases';
+                currentErrorMessage = 'role does not allow purchases';
                 console.log('role does not allow purchases');
             } else if (res.payload.code === 'TEMP_STUDIO') {
-                errorMessage = 'has temporary studio license';
+                currentErrorMessage = 'has temporary studio license';
                 console.log('has temporary studio license');
             } else if (res.payload.code === 'HAS_STUDIO') {
-                errorMessage = 'already has studio';
+                currentErrorMessage = 'already has studio';
                 console.log('already has studio');
             } else if (res.payload.code === 'STRIPE') {
-                errorMessage = 'stripe error';
+                currentErrorMessage = 'stripe error';
                 console.log('stripe error');
             }
+            setErrorMessage(currentErrorMessage);
             return errorMessage;
         }
         // @ts-ignore
@@ -61,25 +62,26 @@ export const StudioSubscription = (props: StudioSubscriptionPropsType) => {
             // @ts-ignore
             goToURL(res.payload?.url);
         }
-    }, [dispatch, subscribe]);
+    }, [dispatch, subscribe, errorMessage]);
 
     const unsubscribeHandler = useCallback(async () => {
         const res = await dispatch(unsubscribe());
         if (res.payload?.error) {
-            let errorMessage = '';
+            let currentErrorMessage = '';
             if (res.payload.code === 'NO_STUDIO') {
-                errorMessage = 'no studio license';
+                currentErrorMessage = 'no studio license';
                 console.log('no studio license');
             } else if (res.payload.code === 'ALREADY_CANCEL') {
-                errorMessage = 'license already cancelled';
+                currentErrorMessage = 'license already cancelled';
                 console.log('license already cancelled');
             } else if (res.payload.code === 'STRIPE') {
-                errorMessage = 'stripe error';
+                currentErrorMessage = 'stripe error';
                 console.log('stripe error');
             }
+            setErrorMessage(currentErrorMessage);
             return errorMessage;
         }
-    }, [dispatch, unsubscribe]);
+    }, [dispatch, unsubscribe, errorMessage]);
 
     const billingHandler = useCallback(async () => {
         await dispatch(billing());
@@ -120,7 +122,9 @@ export const StudioSubscription = (props: StudioSubscriptionPropsType) => {
                         {!props.studio.cancelled
                             ? <>
                                 <Button onClick={billingHandler}>Update Billing</Button>
-                                <button onClick={unsubscribeHandler} className={s.StudioSubscription_Section_CancelBtn}>Cancel Subscription</button>
+                                <button onClick={unsubscribeHandler}
+                                        className={s.StudioSubscription_Section_CancelBtn}>Cancel Subscription
+                                </button>
                             </>
                             : props.studio.sub
                             && <Button
@@ -134,7 +138,10 @@ export const StudioSubscription = (props: StudioSubscriptionPropsType) => {
 
     return (
         <div className={s.StudioSubscription}>
-            {studioPlan()}
+            <>
+                {errorMessage && alert(errorMessage)}
+                {studioPlan()}
+            </>
         </div>
     );
 }

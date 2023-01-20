@@ -13,10 +13,7 @@
 
 .Btn:hover {
     cursor: pointer;
-    /*background-color: #343434FF;*/
-    background-color: #fff;
-    color: #0f0f0f;
-    border: 1px solid #0f0f0f;
+    background-color: #363636FC;
 }
 
 .Btn > a {

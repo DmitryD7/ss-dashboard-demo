@@ -93,10 +93,8 @@ export const accountSlice = createSlice({
                 state.isLoggedIn = true;
             }
         });
-        builder.addCase(login.fulfilled, (state, action) => {
-            if (action.payload.email) {
-                state.isLoggedIn = true;
-            }
+        builder.addCase(login.fulfilled, (state) => {
+            state.isLoggedIn = true;
         });
         builder.addCase(logout.fulfilled, (state) => {
             state.isLoggedIn = false;

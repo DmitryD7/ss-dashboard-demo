@@ -5,12 +5,6 @@
     height: 100vh;
 }
 
-.AccountPage_Header {
-    font-size: 41px;
-    margin-top: 0;
-    margin-bottom: 31px;
-}
-
 .AccountPage_Content {
     display: flex;
     flex-direction: column;
@@ -44,7 +38,9 @@
     margin-bottom: 39px;
 }
 
-.AccountPage_Section__Settings{}
+.AccountPage_Section__Settings button {
+    margin-top: 25px;
+}
 
 .AccountPage_Section__Icon {
     margin-right: 17px;
@@ -56,23 +52,6 @@
     right: 58px;
     font-weight: 400;
     font-size: 22px;
-}
-
-.AccountPage_Section__Button {
-    margin-top: 25px;
-    padding: 10px 35px;
-
-    background: #0f0f0f;
-    border-radius: 10px;
-
-    font-weight: 400;
-    font-size: 22px;
-    color: #ffffff;
-    text-align: center;
-}
-
-.AccountPage_Section__Button:hover {
-    background: #343434FF;
 }
 
 /*Change password modal window*/
@@ -121,6 +100,7 @@
 }
 .Modal {
     position: fixed;
+    z-index: 1;
     top: 50%;
     left: 50%;
     background: #37353b;

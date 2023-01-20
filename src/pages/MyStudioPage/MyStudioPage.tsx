@@ -2,6 +2,7 @@ import {useSelector} from "react-redux";
 import {accountSelectors} from "../../app/accountReducer";
 import s from './MyStudioPage.module.css';
 import {StudioSubscription} from "../../components/StudioSubscription/StudioSubscription";
+import {HeaderText} from "../../components/HeaderText/HeaderText";
 
 const MyStudioPage = () => {
     const {selectIsLoggedIn} = accountSelectors;
@@ -11,7 +12,7 @@ const MyStudioPage = () => {
 
     return (isLoggedIn
             ? <div className={s.MyStudioPage}>
-                <h1>Studio Plan</h1>
+                <HeaderText text={'Studio Plan'}/>
                 <StudioSubscription/>
                 <h2 style={{marginTop: '41px'}}>Seats</h2>
                 <hr/>
