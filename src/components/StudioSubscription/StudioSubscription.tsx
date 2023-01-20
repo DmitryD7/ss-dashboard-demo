@@ -1,36 +1,8 @@
 import s from "./StudioSubscription.module.css";
 import Button from "../Button/Button";
-import {IAccount} from "../../api/dataTypes";
 import {useCallback, useState} from "react";
 import {goToURL, useAppDispatch} from "../../utils/utils";
 import {subscriptionActions} from "../../app/subscriptionReducer";
-
-const testData: IAccount = {
-    // internal account id
-    "id": "f306399632ba24df41915150095c94207e040eb763248c8d346a1d6456cb7090",
-    // external account id
-    "email": "test@test.com",
-    // date account created
-    "created": "2023-01-10T22:40:14.547Z",
-    // full name (optional)
-    "name": "Test",
-    // enum: user, dev, admin, warper
-    "role": "user",
-    // test uses fake stripe
-    "test": true,
-    // stripe customer (optional)
-    "customer": "cus_N98mpJFOTq1ztc",
-    // does this user have a trial available? (optional)
-    "has_studio_trial": true,
-    // studio license information (optional)
-    "studio": {
-        "sub": "sub_1MOqXoKXL9xcMNDBzd15EI7k", // stripe subscription (if missing, indefinite license)
-        "n": 1,
-        "cancelled": false, // true if the subscription does not renew
-        "end": 1675982627, // UTC date of renew/cancel (eg. new Date(end*1000).toLocaleDateString())
-        "trial": false, //
-    },
-};
 
 export const StudioSubscription = (props: StudioSubscriptionPropsType) => {
     const dispatch = useAppDispatch();

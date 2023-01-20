@@ -9,7 +9,6 @@ export const appSlice = createSlice({
     initialState: {
         status: 'idle' as RequestStatusType,
         error: null as string | null,
-        isInitialized: false,
     },
     reducers: {},
     extraReducers: builder => {
