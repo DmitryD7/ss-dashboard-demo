@@ -13,7 +13,7 @@
 .AccountPage_Section {
     position: relative;
     min-width: 256px;
-    max-width: 650px;
+    max-width: 625px;
     border-radius: 20px;
     box-shadow: 10px 10px 29px 0 #00000036;
     padding: 36px 52px 94px 52px;
@@ -122,4 +122,25 @@
     opacity: 0;
     visibility: hidden;
     translate: -50% -50%;
+}
+
+@media (max-width: 1064px) {
+    .AccountPage {
+        margin-top: 0;
+        width: 100vw;
+    }
+}
+
+@media (max-width: 764px) {
+    .AccountPage {
+        text-align: center;
+        padding: 0;
+    }
+
+    .AccountPage_Section {
+        text-align: start;
+        max-width: 356px;
+        padding: 36px 13px 94px 13px;
+        margin: 0 auto;
+    }
 }

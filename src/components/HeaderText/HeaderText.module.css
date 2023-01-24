@@ -2,6 +2,12 @@
     margin-top: 0;
     margin-bottom: 31px;
 
-    font-size: 41px;
+    font-size: 3rem;
     font-weight: 400;
+}
+
+@media (max-width: 764px) {
+    .HeaderText {
+        font-size: 2.1rem;
+    }
 }

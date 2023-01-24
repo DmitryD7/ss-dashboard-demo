@@ -3,3 +3,17 @@
     text-align: start;
     padding-left: 23px;
 }
+
+@media (max-width: 1064px) {
+    .MyStudioPage {
+        margin-top: 0;
+        width: 100vw;
+    }
+}
+
+@media (max-width: 764px) {
+    .MyStudioPage {
+        text-align: center;
+        padding: 0;
+    }
+}

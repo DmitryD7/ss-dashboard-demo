@@ -43,3 +43,12 @@
     bottom: 31px;
     right: 29px;
 }
+
+@media (max-width: 764px) {
+    .StudioSubscription_Section {
+        text-align: start;
+        max-width: 356px;
+        padding: 36px 13px 94px 13px;
+        margin: 0 auto;
+    }
+}

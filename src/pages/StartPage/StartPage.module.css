@@ -23,8 +23,31 @@
 
 .StartPage_Fullwidth {
     object-fit: cover;
-    width: 100%;
+    width: 100vw;
     height: 100vh;
     display: block;
 }
+
+.VideoDesktop {
+    display: block;
+}
+
+.VideoMobile {
+    display: none;
+}
+
+@media (max-width: 764px) {
+    .VideoDesktop {
+        display: none;
+    }
+    .VideoMobile {
+        display: block;
+    }
+}
+
+/*@media (max-width: 1064px) and (min-height: 768px) {*/
+/*    .StartPage_Fullwidth {*/
+/*        height: calc(100vh - 72px);*/
+/*    }*/
+/*}*/
 

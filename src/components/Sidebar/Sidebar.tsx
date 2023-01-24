@@ -1,16 +1,18 @@
-import {FC, Fragment, useRef, useState} from "react";
+import {FC, Fragment, useEffect, useRef, useState} from "react";
 import Logo from "../../assets/Black.png";
 import "./Sidebar.css"
 import {useNavigate} from "react-router-dom";
+import {MobileNav} from "./MobileVersion/MobileNav";
+import useWindowDimensions from "../../utils/useWindowDimensions";
 
-const menuItems = [
+const menuItems: Item[] = [
     {
         name: "Account",
         icon: "manage_accounts",
-        items: ["MyStudio"],
+        // items: ["MyStudio"],
     },
     {
-        name: "Studio",
+        name: "MyStudio",
         icon: "apps",
     },
 ];
@@ -18,20 +20,23 @@ const menuItems = [
 type Item = {
     name: string;
     icon: string;
-    items: string[];
+    items?: string[] | undefined;
 };
 
-const Icon = ({ icon }: { icon: string }) => (
+const Icon = ({icon}: { icon: string }) => (
     <span className="material-symbols-outlined">{icon}</span>
 );
 
 const NavHeader = () => {
     const navigate = useNavigate();
+    const onMenuButtonHandler = () => {
+        console.log('Menu')
+    };
 
     return (
         <header className="sidebar-header">
-            <button type="button">
-                <Icon icon="menu" />
+            <button type="button" onClick={onMenuButtonHandler}>
+                <Icon icon="menu"/>
             </button>
             <button onClick={() => navigate('/')}>
                 <img src={Logo} alt="logo" style={{width: '139px'}}/>
@@ -60,9 +65,9 @@ const NavButton: FC<ButtonProps> = ({
         onClick={() => onClick(name)}
         className={isActive ? "active" : ""}
     >
-        {icon && <Icon icon={icon} />}
+        {icon && <Icon icon={icon}/>}
         <span>{name}</span>
-        {hasSubNav && <Icon icon={`expand_${isActive ? "less" : "more"}`} />}
+        {hasSubNav && <Icon icon={`expand_${isActive ? "less" : "more"}`}/>}
     </button>
 );
 
@@ -72,11 +77,11 @@ type SubMenuProps = {
     handleClick: (args0: string) => void;
 };
 
-const SubMenu: FC<SubMenuProps> = ({ item, activeItem, handleClick }) => {
+const SubMenu: FC<SubMenuProps> = ({item, activeItem, handleClick}) => {
     const navRef = useRef<HTMLDivElement>(null);
 
-    const isSubNavOpen = (item: string, items: string[]) =>
-        items.some((i) => i === activeItem) || item === activeItem;
+    const isSubNavOpen = (item: string, items: string[] | undefined) =>
+        items?.some((i) => i === activeItem) || item === activeItem;
 
     return (
         <div
@@ -88,7 +93,7 @@ const SubMenu: FC<SubMenuProps> = ({ item, activeItem, handleClick }) => {
             }}
         >
             <div ref={navRef} className="sub-nav-inner">
-                {item?.items.map((subItem) => (
+                {item?.items?.map((subItem) => (
                     <NavButton
                         key={subItem}
                         onClick={handleClick}
@@ -104,46 +109,56 @@ const SubMenu: FC<SubMenuProps> = ({ item, activeItem, handleClick }) => {
 export const Sidebar = () => {
     const [activeItem, setActiveItem] = useState<string>("");
     const navigate = useNavigate();
+    const [isMobile, setIsMobile] = useState(false);
+
+    const {width} = useWindowDimensions();
+
+    useEffect(() => {
+        if (width <= 1064) {
+            setIsMobile(true)
+        }
+    }, []);
 
     const handleClick = (item: string) => {
         setActiveItem(item !== activeItem ? item : "");
-        console.log("activeItem", activeItem);
         navigate(item)
     };
 
     return (
-        <aside className="sidebar">
-            <NavHeader />
-            {menuItems.map((item) => (
-                <Fragment key={item.name}>
-                    {!item.items && (
-                        <NavButton
-                            onClick={handleClick}
-                            name={item.name}
-                            icon={item.icon}
-                            isActive={activeItem === item.name}
-                            hasSubNav={!!item.items}
-                        />
-                    )}
-                    {item.items && (
-                        <>
+        isMobile
+            ? <MobileNav/>
+            : <aside className="sidebar">
+                <NavHeader/>
+                {menuItems.map((item) => (
+                    <Fragment key={item.name}>
+                        {!item.items && (
                             <NavButton
-
                                 onClick={handleClick}
                                 name={item.name}
                                 icon={item.icon}
                                 isActive={activeItem === item.name}
                                 hasSubNav={!!item.items}
                             />
-                            <SubMenu
-                                activeItem={activeItem}
-                                handleClick={handleClick}
-                                item={item}
-                            />
-                        </>
-                    )}
-                </Fragment>
-            ))}
-        </aside>
+                        )}
+                        {item.items && (
+                            <>
+                                <NavButton
+
+                                    onClick={handleClick}
+                                    name={item.name}
+                                    icon={item.icon}
+                                    isActive={activeItem === item.name}
+                                    hasSubNav={!!item.items}
+                                />
+                                <SubMenu
+                                    activeItem={activeItem}
+                                    handleClick={handleClick}
+                                    item={item}
+                                />
+                            </>
+                        )}
+                    </Fragment>
+                ))}
+            </aside>
     );
 };

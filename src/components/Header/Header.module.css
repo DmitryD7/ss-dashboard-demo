@@ -1,6 +1,7 @@
 .Header {
     display: flex;
     justify-content: space-between;
+    height: 72px;
 }
 
 .Header_StyleScanIco {
